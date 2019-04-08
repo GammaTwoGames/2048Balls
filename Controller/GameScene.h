@@ -43,11 +43,9 @@ int GameScene::show(sf::RenderWindow *window, MyDraw *draw, double time) {
             push_ball = false;
         }
     }
-    std::ostringstream playerScoreString;
-    playerScoreString << (engine.score() - 62);
     draw->drawBalls(engine.getBalls());
     draw->drawLabel(titleLabel, 255);
-    draw->drawLabel(Label(330, 10, 220, 45, "Score: " + playerScoreString.str(), 50), 255);
+    draw->drawLabel(Label(330, 10, 220, 45, "Score: " + std::to_string(engine.score()), 50), 255);
 
     if (engine.getLose() == 0) {
         draw->drawLabel(swellLabel, 255);
@@ -85,8 +83,12 @@ int GameScene::show(sf::RenderWindow *window, MyDraw *draw, double time) {
     return scn::GAME;
 }
 
+/**
+ *
+ * @return player score
+ */
 int GameScene::getScore() {
-    return engine.score() - 62; // ?????????????????????????????????????????
+    return engine.score();
 }
 
 #endif // GAME_SCENE_H_INCLUDED

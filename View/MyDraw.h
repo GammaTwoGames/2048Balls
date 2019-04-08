@@ -8,9 +8,9 @@
 class MyDraw {
 public:
     MyDraw(sf::RenderWindow *renderWindow);
-    void drawBalls(const std::vector<Ball> *balls);
-    void drawLabel(Label label, int transparency);
-    void drawButton(Button but, int px, int py);
+    virtual void drawBalls(const std::vector<Ball> *balls);
+    virtual void drawLabel(Label label, int transparency);
+    virtual void drawButton(Button but, int px, int py);
 
 private:
     sf::RenderWindow *window;
@@ -39,18 +39,14 @@ void MyDraw::drawBalls(const std::vector<Ball> *balls) {
                                      ((100 - 30 * (ball.num - 4)) > 0) ? (100 - 30 * (ball.num - 4)) : 0));
         window->draw(shape);
 
-        sf::Text chi;
+        sf::Text text;
 
-        std::ostringstream playerScoreString;
-        playerScoreString << ball.st;
-        rita.loadFromFile("rita.ttf");
-        chi.setFont(rita);
-        //chi.setString("Boulat - Petooh");
-        chi.setString("" + playerScoreString.str());
-        chi.setPosition(sf::Vector2f(10 + ball.x + 0 * ball.p - chi.getLocalBounds().width / 2,
-                                     110 + ball.y + 0 * ball.p - 10 - chi.getLocalBounds().height / 2));
-        chi.setFillColor(sf::Color(0, 0, 0));
-        window->draw(chi);
+        text.setFont(rita);
+        text.setString("" + std::to_string(ball.st));
+        text.setPosition(sf::Vector2f(10 + ball.x + 0 * ball.p - text.getLocalBounds().width / 2,
+                                     110 + ball.y + 0 * ball.p - 10 - text.getLocalBounds().height / 2));
+        text.setFillColor(sf::Color(0, 0, 0));
+        window->draw(text);
     }
 }
 

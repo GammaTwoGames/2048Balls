@@ -29,6 +29,7 @@ private:
     Vec2d<double> gravity;
     bool lose = false;
     const int ITERATIONS = 3;
+    const double K = 5e3;
 };
 
 Engine::Engine() : gravity(0, 10) {}
@@ -38,7 +39,7 @@ void Engine::step(double time) {
     for (int k = 0; k < ITERATIONS; k++) {
         for (auto &ball : balls) {
             ball.app(time);
-            ball.low2(time, gravity.x - (ball.ux) / 3, gravity.y - (ball.uy) / 3);
+            ball.low2(time, gravity.x - (ball.ux) / ITERATIONS, gravity.y - (ball.uy) / ITERATIONS);
         }
         for (int i = 0; i < balls.size(); i++)
             for (int j = 0; j < balls.size(); j++) {
@@ -47,8 +48,8 @@ void Engine::step(double time) {
                           (balls[i].y - balls[j].y) * (balls[i].y - balls[j].y));
                     s2 = (balls[i].p + balls[j].p) * (balls[i].p + balls[j].p);
                     if (s1 < s2) {
-                        balls[i].low2(time, (s2 - s1) * (balls[i].x - balls[j].x) / 5e3,
-                                         (s2 - s1) * (balls[i].y - balls[j].y) / 5e3);
+                        balls[i].low2(time, (s2 - s1) * (balls[i].x - balls[j].x) / K,
+                                         (s2 - s1) * (balls[i].y - balls[j].y) / K);
                     }
                 }
             }
@@ -132,7 +133,7 @@ void Engine::smartPushBall() {
 void Engine::initMap() {
     balls.clear();
     for (int i = 1; i < 6; i++) {
-        balls.emplace_back(random.iRandom(100, 600), random.iRandom(100, 600), i);
+        smartPushBall();
     }
 }
 
