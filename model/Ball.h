@@ -5,13 +5,13 @@
 class Ball {
 private:
 public:
-    float p;
-    float x, y, ux, uy;
+    double p;
+    double x, y, ux, uy;
     int num;
     int st;
-    bool del = 0;
+    bool del = false;
 
-    Ball(float _x, float _y, int _num) {
+    Ball(double _x, double _y, int _num) {
         x = _x;
         y = _y;
         ux = 0;
@@ -24,7 +24,7 @@ public:
         p = 60 + num * 13;
     }
 
-    void app(float time) {
+    void app(double time) {
         x += ux * time;
         y += uy * time;
 
@@ -46,7 +46,7 @@ public:
         }
     }
 
-    void low2(float time, float fx, float fy) {
+    void low2(double time, double fx, double fy) {
         ux += fx * time;
         uy += fy * time;
     }
