@@ -9,18 +9,17 @@ public:
     GameScene();
     int show(sf::RenderWindow *window, MyDraw *draw, double time);
     int init();
+    int getScore();
 private:
     Engine engine;
     bool push_ball = false;
 
     Label titleLabel;
     Label swellLabel;
-    Label failLabel;
 };
 
 GameScene::GameScene() : titleLabel(Label(10, 10, 220, 90, "2048", 92)),
-                         swellLabel(Label(350, 60, 220, 45, "doing swell", 50)),
-                         failLabel(Label(385, 60, 220, 45, "ooh, fail!", 50)) {}
+                         swellLabel(Label(350, 60, 220, 45, "doing swell", 50)) {}
 
 int GameScene::init() {
     engine.setLose(false);
@@ -47,13 +46,13 @@ int GameScene::show(sf::RenderWindow *window, MyDraw *draw, double time) {
     std::ostringstream playerScoreString;
     playerScoreString << (engine.score() - 62);
     draw->drawBalls(engine.getBalls());
-    draw->drawButton(titleLabel, 255);
-    draw->drawButton(Label(330, 10, 220, 45, "Score: " + playerScoreString.str(), 50), 255);
+    draw->drawLabel(titleLabel, 255);
+    draw->drawLabel(Label(330, 10, 220, 45, "Score: " + playerScoreString.str(), 50), 255);
 
     if (engine.getLose() == 0) {
-        draw->drawButton(swellLabel, 255);
+        draw->drawLabel(swellLabel, 255);
     } else {
-        draw->drawButton(failLabel, 255);
+        return scn::FINISH;
     }
 
 
@@ -84,6 +83,10 @@ int GameScene::show(sf::RenderWindow *window, MyDraw *draw, double time) {
         }
     }
     return scn::GAME;
+}
+
+int GameScene::getScore() {
+    return engine.score() - 62; // ?????????????????????????????????????????
 }
 
 #endif // GAME_SCENE_H_INCLUDED

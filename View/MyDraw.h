@@ -9,7 +9,7 @@ class MyDraw {
 public:
     MyDraw(sf::RenderWindow *renderWindow);
     void drawBalls(const std::vector<Ball> *balls);
-    void drawButton(Label but, int alfa);
+    void drawLabel(Label label, int transparency);
     void drawButton(Button but, int px, int py);
 
 private:
@@ -54,22 +54,21 @@ void MyDraw::drawBalls(const std::vector<Ball> *balls) {
     }
 }
 
-void MyDraw::drawButton(Label but, int alfa) {
-    sf::RectangleShape rectangle(sf::Vector2f(but.l, but.h));
-    rectangle.setPosition(but.x, but.y);
+void MyDraw::drawLabel(Label label, int transparency) {
+    sf::RectangleShape rectangle(sf::Vector2f(label.l, label.h));
+    rectangle.setPosition(label.x, label.y);
     rectangle.setFillColor(sf::Color(182, 92, 0));
     window->draw(rectangle);
 
-    sf::Text chi("", rita, but.siz);
+    sf::Text text("", rita, label.siz);
 
-    chi.setFont(rita);
-    //chi.setStyle(sf::Text::Bold | sf::Text::Regular);
+    text.setFont(rita);
 
-    chi.setString(but.st);
-    chi.setPosition(sf::Vector2f(but.x + but.l / 2 - chi.getLocalBounds().width / 2 - but.siz / 15,
-                                 but.y + but.h / 2 - but.siz / 3.5 - chi.getLocalBounds().height / 2));
-    chi.setFillColor(sf::Color(255, 255, 255, alfa));
-    window->draw(chi);
+    text.setString(label.st);
+    text.setPosition(sf::Vector2f(label.x + label.l / 2 - text.getLocalBounds().width / 2 - label.siz / 15,
+                                 label.y + label.h / 2 - label.siz / 3.5 - text.getLocalBounds().height / 2));
+    text.setFillColor(sf::Color(255, 255, 255, transparency));
+    window->draw(text);
 }
 
 void MyDraw::drawButton(Button but, int px, int py) {
@@ -82,20 +81,19 @@ void MyDraw::drawButton(Button but, int px, int py) {
     }
     window->draw(rectangle);
 
-    sf::Text chi("", rita, but.siz);
+    sf::Text text("", rita, but.siz);
 
-    chi.setFont(rita);
-    //chi.setStyle(sf::Text::Bold | sf::Text::Regular);
+    text.setFont(rita);
 
-    chi.setString(but.st);
-    chi.setPosition(sf::Vector2f(but.x + but.l / 2 - chi.getLocalBounds().width / 2 - but.siz / 15,
-                                 but.y + but.h / 2 - but.siz / 3.5 - chi.getLocalBounds().height / 2));
+    text.setString(but.st);
+    text.setPosition(sf::Vector2f(but.x + but.l / 2 - text.getLocalBounds().width / 2 - but.siz / 15,
+                                 but.y + but.h / 2 - but.siz / 3.5 - text.getLocalBounds().height / 2));
     if (but.is_in(px, py) == 0) {
-        chi.setFillColor(sf::Color(255, 255, 255));
+        text.setFillColor(sf::Color(255, 255, 255));
     } else {
-        chi.setFillColor(sf::Color(182, 92, 0));
+        text.setFillColor(sf::Color(182, 92, 0));
     }
-    window->draw(chi);
+    window->draw(text);
 }
 
 #endif // DRAW_H_INCLUDED

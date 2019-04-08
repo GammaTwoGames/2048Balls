@@ -11,6 +11,7 @@
 #include "GameScene.h"
 #include "OpenningScene.h"
 #include "MenuScene.h"
+#include "FinishScene.h"
 
 class Game {
 public:
@@ -18,7 +19,7 @@ public:
     void run();
 
 private:
-    void manageScenes(double time, double totalTime);
+    void manageScenes(double time);
     sf::RenderWindow *window;
     sf::Clock clock;
 
@@ -26,10 +27,11 @@ private:
     OpeningScene openingScene;
     MenuScene menuScene;
     GameScene gameScene;
+    FinishScene finishScene;
 
     int currentScene = scn::OPENING;
     float totalTime = 0;
-    
+
     const sf::Color BACKGROUND_COLOR = sf::Color(182, 92, 0);
 };
 
@@ -50,8 +52,8 @@ void Game::run() {
         totalTime += time / 1e6;
         time = time / 1.8e5 * 0.6;
         time = (time > 0.5) ? 0.5 : time;
-        
-        manageScenes(time, totalTime);
+
+        manageScenes(time);
         window->display();
     }
 }
@@ -61,17 +63,28 @@ void Game::run() {
  * @param time timestamp
  * @param totalTime time since the start of the game
  */
-void Game::manageScenes(double time, double totalTime) {
+void Game::manageScenes(double time) {
+    int newScene = scn::OPENING;
     if (currentScene == scn::OPENING) {
-        currentScene = openingScene.show(window, draw, totalTime);
+        newScene = openingScene.show(window, draw, totalTime);
     } else
     if (currentScene == scn::MENU) {
-        currentScene = menuScene.show(window, draw);
-        if (currentScene == scn::GAME)
+        newScene = menuScene.show(window, draw);
+        if (newScene == scn::GAME)
             gameScene.init();
     } else
     if (currentScene == scn::GAME) {
-        currentScene = gameScene.show(window, draw, time);
+        newScene = gameScene.show(window, draw, time);
+        if (newScene == scn::FINISH)
+            finishScene.setScore(gameScene.getScore());
+    } else
+    if (currentScene == scn::FINISH) {
+        newScene = finishScene.show(window, draw, totalTime);
+    }
+
+    if (newScene != currentScene) {
+        totalTime = 0;
+        currentScene = newScene;
     }
 }
 
