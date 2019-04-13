@@ -128,9 +128,9 @@ int smart_push_ball(vector<Ball>* balls)
     if (vects.size() != 0)
     {
         ran = rand()%vects.size();
-        int sz = rand()%2 + 1;
+        int sz = (rand()%2 + 1);
         (*balls).push_back(Ball(vects[ran].x,vects[ran].y,sz));
-        return sz;
+        return sz * 2;
     }
     else
     {

@@ -10,7 +10,6 @@ vector<Ball> balls;
 float G = -10;
 float GG = -10;
 bool push_ball = 0;
-int scr = 0;
 void game_start()
 {
     set_lose();
@@ -19,7 +18,7 @@ void game_start()
 }
 
 
-int still_game(RenderWindow* window, float time, int initial_scr = 0)
+int still_game(RenderWindow* window, float time, int scr)
     
 {
     if (get_lose() == 0)
@@ -96,6 +95,7 @@ int still_game(RenderWindow* window, float time, int initial_scr = 0)
                 }
         }
         window->setMouseCursorVisible(1);
+        return scr;
 }
 
 #endif // GAME_SCENE_H_INCLUDED
