@@ -18,12 +18,12 @@ void game_start()
 }
 int scr = 0;
 
-int still_game(RenderWindow* window, float time, int bestscr)
+int still_game(RenderWindow* window, int bestscr)
     
 {
     if (get_lose() == 0)
         {
-            app_phys(&balls,GG,G,time);
+            app_phys(&balls,GG,G);
             analise_map(&balls);
             if (push_ball == 1)
             {
