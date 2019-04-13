@@ -10,7 +10,7 @@ vector<Ball> balls;
 float G = -10;
 float GG = -10;
 bool push_ball = 0;
-
+int scr = 0;
 void game_start()
 {
     set_lose();
@@ -19,7 +19,8 @@ void game_start()
 }
 
 
-void still_game(RenderWindow* window, float time)
+int still_game(RenderWindow* window, float time, int initial_scr = 0)
+    
 {
     if (get_lose() == 0)
         {
@@ -27,12 +28,12 @@ void still_game(RenderWindow* window, float time)
             analise_map(&balls);
             if (push_ball == 1)
             {
-                smart_push_ball(&balls);
+                scr += smart_push_ball(&balls);
                 push_ball = 0;
             }
         }
     ostringstream playerScoreString;
-    playerScoreString << (score(&balls) - 62);
+    playerScoreString << (scr);
     drawing_balls(window, &balls);
     drawing_button(window, button_zero(10,10,220,90,"2048", 92),255);
     drawing_button(window, button_zero(330,10,220,45,"Score:", 50),255);

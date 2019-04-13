@@ -98,7 +98,7 @@ public:
     }
 };
 
-void smart_push_ball(vector<Ball>* balls)
+int smart_push_ball(vector<Ball>* balls)
 {
     int ran;
     int n1, d1, n2, d2;
@@ -128,11 +128,14 @@ void smart_push_ball(vector<Ball>* balls)
     if (vects.size() != 0)
     {
         ran = rand()%vects.size();
-        (*balls).push_back(Ball(vects[ran].x,vects[ran].y,rand()%2 + 1));
+        int sz = rand()%2 + 1;
+        (*balls).push_back(Ball(vects[ran].x,vects[ran].y,sz));
+        return sz;
     }
     else
     {
         lose = 1;
+        return 0;
     }
 }
 
