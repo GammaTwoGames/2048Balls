@@ -23,7 +23,7 @@ int main()
     Clock clock;
 
     float all_time = 0;
-    int scr = 0;
+    int bestscr = 0;
 
     while (window.isOpen())
     {
@@ -41,8 +41,8 @@ int main()
 
         if (get_still() == 0) still_oppening(&window,time,1.5*all_time);
         if (get_still() == 1) {
-            scr = still_game(&window,time, scr);
-            cout << scr << endl;
+            bestscr = max(bestscr, still_game(&window,time, bestscr));
+            cout << bestscr << endl;
         }
         if (get_still() == 2) still_menu(&window);
 

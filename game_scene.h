@@ -16,9 +16,9 @@ void game_start()
     create_first_balls(&balls);
     push_ball = 0;
 }
+int scr = 0;
 
-
-int still_game(RenderWindow* window, float time, int scr)
+int still_game(RenderWindow* window, float time, int bestscr)
     
 {
     if (get_lose() == 0)
@@ -31,12 +31,15 @@ int still_game(RenderWindow* window, float time, int scr)
                 push_ball = 0;
             }
         }
-    ostringstream playerScoreString;
+    ostringstream playerScoreString, bestScore;
     playerScoreString << (scr);
+    bestScore << bestscr;
     drawing_balls(window, &balls);
     drawing_button(window, button_zero(10,10,220,90,"2048", 92),255);
-    drawing_button(window, button_zero(330,10,220,45,"Score:", 50),255);
-    drawing_button(window, button_zero(550,10,220,45,playerScoreString.str(), 50),255);
+    drawing_button(window, button_zero(330,10,100,45,"Score:", 50),255);
+    drawing_button(window, button_zero(470,10,50,45,playerScoreString.str(), 50),255);
+    drawing_button(window, button_zero(560,10,80,45,"Best:", 50),255);
+    drawing_button(window, button_zero(680,10,50,45,bestScore.str(), 50),255);
     if (get_lose() == 0)
     {
         //drawing_button(window, button_zero(385,60,220,45,"doing swell", 50),255);
@@ -60,6 +63,7 @@ int still_game(RenderWindow* window, float time, int scr)
                 {
                     //window->close();
                     change_scene(2);
+                    scr = 0;
                 }
                 if (event.key.code == sf::Keyboard::W)
                 {
