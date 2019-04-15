@@ -2,6 +2,8 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
+#include<fstream>
+#include<string>
 
 #include "egine.h"
 #include "drawing.h"
@@ -21,10 +23,19 @@ int main()
     change_scene(0);
 
     RenderWindow window(sf::VideoMode(820, 920),"2048 - Balls",  Style::None );
+    int bestscr;
 
     Clock clock;
+    fstream file;
+    string highs;
+    file.open("highscore", ios::in);
+    if(!file.good()) bestscr = 0;
+    else{
+        getline(file, highs);
+        bestscr = stoi(highs);
+    }
+    file.close();
 
-    int bestscr = 0;
 
     while (window.isOpen())
     {
@@ -50,5 +61,9 @@ int main()
 
         window.display();
     }
+    file.open("highscore", ios::out | ios::trunc);
+    file << bestscr;
+    file.close();
+
     return 0;
 }
