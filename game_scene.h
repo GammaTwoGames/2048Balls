@@ -10,33 +10,36 @@ vector<Ball> balls;
 float G = -10;
 float GG = -10;
 bool push_ball = 0;
-
 void game_start()
 {
     set_lose();
     create_first_balls(&balls);
     push_ball = 0;
 }
+int scr = 0;
 
-
-void still_game(RenderWindow* window, float time)
+int still_game(RenderWindow* window, int bestscr)
+    
 {
     if (get_lose() == 0)
         {
-            app_phys(&balls,GG,G,time);
+            app_phys(&balls,GG,G);
             analise_map(&balls);
             if (push_ball == 1)
             {
-                smart_push_ball(&balls);
+                scr += smart_push_ball(&balls);
                 push_ball = 0;
             }
         }
-    ostringstream playerScoreString;
-    playerScoreString << (score(&balls) - 62);
+    ostringstream playerScoreString, bestScore;
+    playerScoreString << (scr);
+    bestScore << bestscr;
     drawing_balls(window, &balls);
     drawing_button(window, button_zero(10,10,220,90,"2048", 92),255);
-    drawing_button(window, button_zero(330,10,220,45,"Score:", 50),255);
-    drawing_button(window, button_zero(550,10,220,45,playerScoreString.str(), 50),255);
+    drawing_button(window, button_zero(330,10,100,45,"Score:", 50),255);
+    drawing_button(window, button_zero(470,10,50,45,playerScoreString.str(), 50),255);
+    drawing_button(window, button_zero(560,10,80,45,"Best:", 50),255);
+    drawing_button(window, button_zero(680,10,50,45,bestScore.str(), 50),255);
     if (get_lose() == 0)
     {
         //drawing_button(window, button_zero(385,60,220,45,"doing swell", 50),255);
@@ -60,6 +63,7 @@ void still_game(RenderWindow* window, float time)
                 {
                     //window->close();
                     change_scene(2);
+                    scr = 0;
                 }
                 if (event.key.code == sf::Keyboard::W)
                 {
@@ -95,6 +99,7 @@ void still_game(RenderWindow* window, float time)
                 }
         }
         window->setMouseCursorVisible(1);
+        return scr;
 }
 
 #endif // GAME_SCENE_H_INCLUDED

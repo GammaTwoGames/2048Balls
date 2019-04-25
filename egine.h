@@ -14,15 +14,15 @@ using namespace std;
 
 int lose = 0;
 
-void app_phys(vector<Ball>* balls, float GG, float G, float time)
+void app_phys(vector<Ball>* balls, float GG, float G)
 {
     float s1,s2;
         for(int k = 0; k < 3; k ++)
         {
             for (int i = 0; i < balls->size(); i ++)
             {
-                (*balls)[i].app(time);
-                (*balls)[i].low2(time, GG  - ((*balls)[i].ux)/3, G - ((*balls)[i].uy)/3);
+                (*balls)[i].app();
+                (*balls)[i].low2(GG  - ((*balls)[i].ux)/3, G - ((*balls)[i].uy)/3);
             }
             for (int i = 0; i < balls->size(); i ++)
                 for (int j = 0; j < balls->size(); j ++)
@@ -33,7 +33,7 @@ void app_phys(vector<Ball>* balls, float GG, float G, float time)
                         s2 = ((*balls)[i].p + (*balls)[j].p)*((*balls)[i].p + (*balls)[j].p);
                         if (s1 < s2)
                         {
-                            (*balls)[i].low2(time, (s2 - s1)*((*balls)[i].x - (*balls)[j].x)/5e3, (s2 - s1)*((*balls)[i].y - (*balls)[j].y)/5e3);
+                            (*balls)[i].low2((s2 - s1)*((*balls)[i].x - (*balls)[j].x)/5e3, (s2 - s1)*((*balls)[i].y - (*balls)[j].y)/5e3);
                         }
                     }
                 }
@@ -98,7 +98,7 @@ public:
     }
 };
 
-void smart_push_ball(vector<Ball>* balls)
+int smart_push_ball(vector<Ball>* balls)
 {
     int ran;
     int n1, d1, n2, d2;
@@ -128,11 +128,14 @@ void smart_push_ball(vector<Ball>* balls)
     if (vects.size() != 0)
     {
         ran = rand()%vects.size();
-        (*balls).push_back(Ball(vects[ran].x,vects[ran].y,rand()%2 + 1));
+        int sz = (rand()%2 + 1);
+        (*balls).push_back(Ball(vects[ran].x,vects[ran].y,sz));
+        return sz * 2;
     }
     else
     {
         lose = 1;
+        return 0;
     }
 }
 

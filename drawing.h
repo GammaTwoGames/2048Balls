@@ -3,7 +3,6 @@
 
 #include "button.h"
 
-
 void drawing_balls(RenderWindow* window, vector<Ball>* balls)
 {
     float x1, y1;
@@ -18,6 +17,8 @@ void drawing_balls(RenderWindow* window, vector<Ball>* balls)
 
     for (int i = 0; i < balls->size(); i ++)
         {
+            //cout << (*balls)[i].lg_size() << endl;
+            (*balls)[i].adj_size();
             CircleShape shape((*balls)[i].p);
             shape.setPosition(Vector2f(10 + (*balls)[i].x - (*balls)[i].p,110+(*balls)[i].y - (*balls)[i].p));
             shape.setFillColor(Color(255, 220 - 10*((*balls)[i].num - 4), ((100 - 30*((*balls)[i].num - 4))>0)?(100 - 30*((*balls)[i].num - 4)):0));
